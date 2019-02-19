@@ -11,7 +11,7 @@ import {ClassType} from "class-transformer/ClassTransformer"
 
 export abstract class JsonDBService<T extends IModel> {
 
-  private readonly db: JsonDB
+  protected readonly db: JsonDB
   private readonly path: string
   private readonly classType: ClassType<T>
 
