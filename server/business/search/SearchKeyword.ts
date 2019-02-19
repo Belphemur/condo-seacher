@@ -1,23 +1,19 @@
 import {IModel} from "../model/IModel"
 
 export interface ISearchKeyword extends IModel {
-  readonly date: Date
+  readonly createdAt: Date
   readonly lastMatch: Date | null
+  readonly isMatched: boolean
 
   /**
    * Set the fact the search returned result
    */
   setMatched(): void
-
-  /**
-   * The search returned result
-   */
-  isMatched(): boolean
 }
 
 export class SearchKeyword implements ISearchKeyword {
   readonly key: string
-  public readonly date: Date = new Date()
+  readonly createdAt: Date = new Date()
   private _lastMatch: Date | null
 
 
@@ -43,7 +39,7 @@ export class SearchKeyword implements ISearchKeyword {
   /**
    * The search returned result
    */
-  isMatched(): boolean {
+  get isMatched(): boolean {
     return this._lastMatch !== null
   }
 }

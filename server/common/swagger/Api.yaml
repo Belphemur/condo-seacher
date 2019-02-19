@@ -27,45 +27,78 @@ definitions:
         type: string
         example: no_stress
 
+  SearchBody:
+    type: object
+    title: search
+    required:
+      - key
+    properties:
+      key:
+        type: string
+        example: plateau
+      isMatched:
+        type: boolean
+        example: false
+      createdAt:
+        type: string
+        format: date-time
+      lastMatch:
+        type: string
+        format: date-time
+
 paths:
-  /examples:
+  /searches:
     get:
       tags:
-        - Examples
-      description: Fetch all examples
+        - Searches
+      description: Fetch all Searches
       responses:
         200:
-          description: Returns all examples
+          description: Returns all Searches
     post:
       tags:
-        - Examples
-      description: Create a new example
+        - Searches
+      description: Create a new Searches
       parameters:
-        - name: example
+        - name: search
           in: body
-          description: an example
+          description: a search
           required: true
-          schema: 
-            $ref: "#/definitions/ExampleBody"
+          schema:
+            $ref: "#/definitions/SearchBody"
       responses:
-        200:
-          description: Returns all examples
+        201:
+          description: Returns created Search
 
-  /examples/{id}:
+  /searches/{key}:
     get:
       tags:
-        - Examples
+        - Searches
       parameters:
-        - name: id
+        - name: key
           in: path
           required: true
-          description: The id of the example to retrieve
-          type: integer
+          description: The key of the search to retrieve
+          type: string
       responses:
         200:
-          description: Return the example with the specified id
+          description: Return the search with the specified key
         404:
-          description: Example not found
+          description: Search not found
+    delete:
+      tags:
+        - Searches
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The key of the search to retrieve
+          type: string
+      responses:
+        202:
+          description: Search Deleted
+        404:
+          description: Search not found
 
   /spec:
     get:

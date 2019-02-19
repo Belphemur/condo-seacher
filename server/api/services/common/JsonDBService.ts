@@ -4,12 +4,22 @@ import L from "../../../common/logger"
 import {JsonDatabase} from "../../../business/database/JsonDatabase"
 import {classToPlain, plainToClass} from "class-transformer"
 import _ from 'lodash'
-import {ISearchKeyword, SearchKeyword} from "../../../business/search/SearchKeyword"
-import {DatabaseError, DataError} from "node-json-db/dist/types/lib/Errors"
 import {IModel} from "../../../business/model/IModel"
 import {ClassType} from "class-transformer/ClassTransformer"
 
-export abstract class JsonDBService<T extends IModel> {
+export interface IDBService<T extends IModel> {
+  all(): Promise<T[]>
+
+  byKey(key: string): Promise<T | null>
+
+  save(model: T): void
+
+  delete(key: string): void
+
+  deleteModel(model: T): void
+}
+
+export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
 
   protected readonly db: JsonDB
   private readonly path: string
@@ -23,8 +33,15 @@ export abstract class JsonDBService<T extends IModel> {
   }
 
   all(): Promise<T[]> {
-    const result = _.values(this.db.getData(`/${this.path}`)) as object[]
-    return Promise.resolve(plainToClass(this.classType, result))
+    try {
+      const result = _.values(this.db.getData(`/${this.path}`)) as object[]
+      return Promise.resolve(plainToClass(this.classType, result))
+    } catch (error) {
+      L.error("No values", error)
+      return Promise.resolve([])
+    }
+
+
   }
 
   byKey(key: string): Promise<T | null> {
@@ -52,5 +69,9 @@ export abstract class JsonDBService<T extends IModel> {
     } catch (e) {
       L.error("Can't find the key", key, e)
     }
+  }
+
+  deleteModel(model: T): void {
+    this.delete(model.key)
   }
 }
