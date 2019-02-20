@@ -1,4 +1,5 @@
 import {IModel} from "../model/IModel"
+import {Expose} from "class-transformer"
 
 export interface ISearchKeyword extends IModel {
   readonly createdAt: Date
@@ -14,7 +15,7 @@ export interface ISearchKeyword extends IModel {
 export class SearchKeyword implements ISearchKeyword {
   readonly key: string
   readonly createdAt: Date = new Date()
-  private _lastMatch: Date | null
+  private _lastMatch: Date | null = null
 
 
   constructor(key: string) {
@@ -24,6 +25,7 @@ export class SearchKeyword implements ISearchKeyword {
   /**
    * When was the last result successful
    */
+  @Expose()
   get lastMatch(): Date | null {
     return this._lastMatch
   }
@@ -39,6 +41,7 @@ export class SearchKeyword implements ISearchKeyword {
   /**
    * The search returned result
    */
+  @Expose()
   get isMatched(): boolean {
     return this._lastMatch !== null
   }

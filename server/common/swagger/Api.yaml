@@ -17,17 +17,7 @@ produces:
 
 
 definitions:
-  ExampleBody:
-    type: object
-    title: example
-    required:
-      - name
-    properties:
-      name:
-        type: string
-        example: no_stress
-
-  SearchBody:
+  Search:
     type: object
     title: search
     required:
@@ -54,18 +44,22 @@ paths:
       description: Fetch all Searches
       responses:
         200:
-          description: Returns all Searches
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Search"
     post:
       tags:
         - Searches
-      description: Create a new Searches
+      description: Create a new Search
       parameters:
-        - name: search
+        - name: body
           in: body
           description: a search
           required: true
           schema:
-            $ref: "#/definitions/SearchBody"
+            $ref: "#/definitions/Search"
       responses:
         201:
           description: Returns created Search

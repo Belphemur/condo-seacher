@@ -50,11 +50,11 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
     try {
       search = this.db.getData(`/${this.path}/${key}`)
     } catch (error) {
-      L.error("Can't find the key", key, error)
+      L.error("Can't find the key", key, error.message)
       return Promise.resolve(search)
     }
 
-    return Promise.resolve(plainToClass(this.classType, search)[0])
+    return Promise.resolve(plainToClass<T,object>(this.classType, search))
   }
 
   save(model: T): void {
