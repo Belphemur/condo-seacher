@@ -1,10 +1,18 @@
 import {IModel} from "../model/IModel"
-import {Expose} from "class-transformer"
+import {Expose, Type} from "class-transformer"
+import {ProviderType} from "@business/search/provider/ProviderTypes"
+import {Editable} from "@business/model/decorator/Editable"
 
 export interface ISearchKeyword extends IModel {
   readonly createdAt: Date
   readonly lastMatch: Date | null
   readonly isMatched: boolean
+
+  cronRule: string | null
+
+  bodyRegex: RegExp | null
+
+  provider: ProviderType
 
   /**
    * Set the fact the search returned result
@@ -16,6 +24,12 @@ export class SearchKeyword implements ISearchKeyword {
   readonly key: string
   readonly createdAt: Date = new Date()
   private _lastMatch: Date | null = null
+  @Editable()
+  bodyRegex: RegExp | null = null
+  @Editable()
+  cronRule: string | null = null
+  @Editable()
+  provider: ProviderType
 
 
   constructor(key: string) {

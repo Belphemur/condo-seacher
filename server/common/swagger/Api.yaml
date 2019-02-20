@@ -5,8 +5,8 @@ info:
   description: Kijiji Scraper
 basePath: /api/v1
 tags:
-  - name: Examples
-    description: Simple example endpoints
+  - name: Searches
+    description: Searches endpoint
   - name: Specification
     description: The swagger API specification
 
@@ -17,11 +17,39 @@ produces:
 
 
 definitions:
-  Search:
+  SearchUpdate:
+    tags:
+      - Searches
     type: object
-    title: search
+    title: SearchUpdate
+    properties:
+      cronRule:
+        type: string
+        pattern: '^(\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))$'
+        example: '0 */2 * * *'
+      bodyRegex:
+        type: string
+        example: '(condo|dishwasher)'
+      provider:
+        type: string
+        enum: [kijiji]
+        
+  SearchCreate:
+    allOf:
+      - $ref: "#/definitions/SearchUpdate"
+    title: SearchCreate
     required:
       - key
+      - provider
+    properties:
+      key:
+        type: string
+        example: plateau
+        
+  Search:
+    allOf:
+      - $ref: "#/definitions/SearchUpdate"
+    title: SearchObject
     properties:
       key:
         type: string
@@ -59,10 +87,12 @@ paths:
           description: a search
           required: true
           schema:
-            $ref: "#/definitions/Search"
+            $ref: "#/definitions/SearchCreate"
       responses:
         201:
           description: Returns created Search
+          schema:
+            $ref: "#/definitions/Search"
 
   /searches/{key}:
     get:
@@ -77,6 +107,30 @@ paths:
       responses:
         200:
           description: Return the search with the specified key
+          schema:
+            $ref: "#/definitions/Search"
+        404:
+          description: Search not found
+    put:
+      tags:
+        - Searches
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The key of the search to update
+          type: string
+        - name: body
+          in: body
+          description: a search
+          required: true
+          schema:
+            $ref: "#/definitions/SearchUpdate"
+      responses:
+        201:
+          description: Return the updated search
+          schema:
+            $ref: "#/definitions/Search"
         404:
           description: Search not found
     delete:
