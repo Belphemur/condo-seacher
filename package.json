@@ -5,29 +5,33 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "compile": "ts-node build.ts && tsc",
-    "dev": "nodemon server/index.ts | pino-pretty",
-    "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
+    "build": "ts-node -r tsconfig-paths/register build.ts && tsc",
+    "dev": "nodemon -r tsconfig-paths/register server/index.ts | pino-pretty",
+    "dev:debug": "nodemon --exec 'node -r tsconfig-paths/register --inspect-brk' server/index.ts | pino-pretty",
     "test": "mocha test/**/*.ts --exit",
-    "test:debug": "mocha --inspect-brk test/**/*.ts --exit"
+    "test:debug": "mocha --inspect-brk test/**/*.ts --exit",
+    "postbuild": "ef-tspm"
   },
   "dependencies": {
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "class-transformer": "^0.2.0",
     "cookie-parser": "^1.4.3",
+    "cron": "^1.6.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "kijiji-scraper": "^4.0.5",
     "lodash": "^4.17.11",
-    "node-json-db": "^0.9.2",
+    "node-json-db": "^0.10.0",
     "pino": "^5.8.1",
     "reflect-metadata": "^0.1.13",
     "swagger-express-middleware": "^2.0.1"
   },
   "devDependencies": {
+    "@ef-carbon/tspm": "^2.2.5",
     "@types/bluebird": "^3.5.24",
     "@types/chai": "^4.1.4",
+    "@types/cron": "^1.6.0",
     "@types/express": "^4.16.0",
     "@types/mocha": "^5.2.5",
     "@types/pino": "^5.20.0",
@@ -38,6 +42,7 @@
     "shelljs": "^0.8.3",
     "supertest": "^3.3.0",
     "ts-node": "^8.0.2",
+    "tsconfig-paths": "^3.8.0",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
   },

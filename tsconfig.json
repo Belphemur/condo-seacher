@@ -9,7 +9,22 @@
     "lib": ["es6", "dom"],
     "outDir": "dist",
     "typeRoots": ["node_modules/@types"],
-    "experimentalDecorators": true
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "paths": {
+      "@/*": [
+        "server/*"
+      ],
+      "@controllers/*": [
+        "server/api/controllers/*"
+      ],
+      "@services/*": [
+        "server/api/services/*"
+      ],
+      "@business/*": [
+        "server/business/*"
+      ]
+    }
   },
   "include": ["typings.d.ts", "server/**/*.ts"],
   "exclude": ["node_modules"]
