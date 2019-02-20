@@ -1,7 +1,7 @@
 import {ModelController} from "../common/ModelController"
-import {ISearchKeyword, SearchKeyword} from "../../../business/search/SearchKeyword"
+import {ISearchKeyword, SearchKeyword} from "@business/search/SearchKeyword"
 import {Request} from "express"
-import {IDBService} from "../../services/common/JsonDBService"
+import {IDBService} from "@services/common/JsonDBService"
 
 export class SearchesController extends ModelController<ISearchKeyword> {
 
@@ -12,7 +12,7 @@ export class SearchesController extends ModelController<ISearchKeyword> {
 
   async createObjectFromRequest(req: Request): Promise<ISearchKeyword> {
     const searchKeyword = new SearchKeyword(req.body.key)
+    this.updateObjectFromRequest(searchKeyword, req)
     return Promise.resolve(searchKeyword)
   }
-
 }
