@@ -1,9 +1,29 @@
 import {CronJob} from "cron"
-import {ICronJob} from "@business/cronjob/job/ICronJob"
 import L from "@/common/logger"
+import {ICronMetadata} from "@business/cronjob/job/ICronMetadata"
+
+class CronJobContainer {
+  cronJob: CronJob
+  metadata: ICronMetadata
+
+  constructor(metadata: ICronMetadata) {
+    this.metadata = metadata
+    this.cronJob = new CronJob(metadata.cronRule, metadata.action)
+  }
+
+  public start() : void {
+    this.cronJob.start()
+    L.info(`Cronjob ${this.metadata.key}: ${this.metadata.cronRule}: started`)
+  }
+
+  public stop() : void {
+    this.cronJob.stop()
+    L.info(`Cronjob ${this.metadata.key}: ${this.metadata.cronRule}: stopped`)
+  }
+}
 
 export class CronJobScheduler {
-  private crons: Map<string, CronJob> = new Map()
+  private crons: Map<string, CronJobContainer> = new Map()
 
 
   private static instance: CronJobScheduler
@@ -19,25 +39,24 @@ export class CronJobScheduler {
   }
 
 
-  public addCronJob(cron: ICronJob): boolean {
+  public addCronJob(cron: ICronMetadata): boolean {
     if (this.crons.has(cron.key)) {
       return false
     }
-    const cronJob = cron.toCronJob()
-    cronJob.start()
-    L.info(`Cronjob ${cron.key}: ${cron.cronRule}: started`)
-    this.crons.set(cron.key, cronJob)
+    const container = new CronJobContainer(cron)
+    container.start()
+
+    this.crons.set(cron.key, container)
 
     return true
   }
 
-  public removeCronJob(cron: ICronJob): boolean {
+  public removeCronJob(cron: ICronMetadata): boolean {
     if (!this.crons.has(cron.key)) {
       return false
     }
 
     this.crons.get(cron.key).stop()
-    L.info(`Cronjob ${cron.key}: ${cron.cronRule}: stopped`)
     this.crons.delete(cron.key)
   }
 }

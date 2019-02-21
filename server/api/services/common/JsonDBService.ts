@@ -38,7 +38,7 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
    */
   protected pathGenerator(...parts: string[]): string {
     if (parts.length === 0) {
-      return this.path
+      return `/${this.path}`
     }
     return `/${this.path}/${parts.join("/")}`
   }

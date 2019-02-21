@@ -2,15 +2,13 @@ import {ISearchKeyword} from "@business/search/SearchKeyword"
 import {getProvider} from "@business/search/provider/ProviderTypes"
 import {CronJob} from "cron"
 
-export interface ICronJob {
+export interface ICronMetadata {
   readonly cronRule: string
   readonly key: string
   readonly action: () => Promise<any>
-
-  toCronJob(): CronJob
 }
 
-export class SearchCronJob implements ICronJob {
+export class SearchCronMetadata implements ICronMetadata {
   readonly action: () => Promise<any>
   readonly cronRule: string
   readonly key: string
@@ -20,9 +18,5 @@ export class SearchCronJob implements ICronJob {
     this.action = () => getProvider(search.provider).processSearch(search)
     this.cronRule = search.cronRule
     this.key = search.key
-  }
-
-  toCronJob(): CronJob {
-    return new CronJob(this.cronRule, this.action)
   }
 }
