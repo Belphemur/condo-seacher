@@ -127,7 +127,7 @@ paths:
           schema:
             $ref: "#/definitions/SearchUpdate"
       responses:
-        201:
+        200:
           description: Return the updated search
           schema:
             $ref: "#/definitions/Search"

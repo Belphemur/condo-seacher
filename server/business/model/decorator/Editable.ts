@@ -9,7 +9,7 @@ export class EditableMetadata {
     this.transformer = transformer
   }
 
-  public setValue(model: IModel, value:any) : void {
+  public setValue(model: IModel, value: any): void {
     model[this.field] = this.transformer(value)
   }
 }
@@ -29,9 +29,17 @@ export function Editable(transformer: EditableTransformer = (value) => value) {
 }
 
 export function getEditableFields(target: IModel): EditableMetadata[] {
-  if (!editableFields.has(target.constructor)) {
-    return []
+
+  let constructor = target.constructor
+  let results: EditableMetadata[] = []
+
+  while (constructor !== null) {
+    if (editableFields.has(constructor)) {
+      results = results.concat(Array.from(editableFields.get(constructor).values()))
+    }
+
+    constructor = Object.getPrototypeOf(constructor)
   }
 
-  return Array.from(editableFields.get(target.constructor).values())
+  return results
 }

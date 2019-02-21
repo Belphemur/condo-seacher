@@ -1,7 +1,12 @@
 import {IModel} from "../model/IModel"
-import {Expose, Type} from "class-transformer"
+import {Expose} from "class-transformer"
 import {ProviderType} from "@business/search/provider/ProviderTypes"
 import {Editable} from "@business/model/decorator/Editable"
+
+export enum SearchType {
+  RENT = 'rent',
+  BUY = 'buy'
+}
 
 export interface ISearchKeyword extends IModel {
   readonly createdAt: Date
@@ -28,7 +33,7 @@ export class SearchKeyword implements ISearchKeyword {
   bodyRegex = null
   @Editable()
   cronRule = null
-  @Editable()
+
   provider: ProviderType
 
 

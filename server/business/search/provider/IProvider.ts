@@ -1,6 +1,6 @@
 import {ISearchKeyword} from "@business/search/SearchKeyword"
 
-export interface IProvider {
+export interface IProvider<T extends ISearchKeyword> {
 
-  processSearch(search:ISearchKeyword) : Promise<any>
+  processSearch(search:T) : Promise<any>
 }
