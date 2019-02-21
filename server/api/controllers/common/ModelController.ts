@@ -44,6 +44,32 @@ export abstract class ModelController<T extends IModel> {
     })
   }
 
+  /**
+   * When the object has been updated
+   * @param object
+   * @param req
+   */
+  protected onUpdated(object: T, req: Request) : void {
+
+  }
+
+  /**
+   * When the object has been created
+   * @param object
+   * @param req
+   */
+  protected onCreated(object: T, req: Request) : void {
+
+  }
+
+  /**
+   * When the object has been deleted
+   * @param object
+   */
+  protected onDeleted(object: T) : void {
+
+  }
+
   async all(req: Request, res: Response): Promise<Response> {
     const result = await this.service.all()
     return Promise.resolve(res.json(this.transformModelToPlain(result)))
@@ -66,6 +92,9 @@ export abstract class ModelController<T extends IModel> {
     res.status(201)
       .location(`<%= apiRoot %>/${this.apiPath}/${object.key}`)
       .json(this.transformModelToPlain(object))
+
+    this.onCreated(object, req)
+
     return Promise.resolve(res)
   }
 
@@ -83,17 +112,23 @@ export abstract class ModelController<T extends IModel> {
     res.status(200)
       .location(`<%= apiRoot %>/${this.apiPath}/${object.key}`)
       .json(this.transformModelToPlain(object))
+
+    this.onUpdated(object, req)
+
+    return Promise.resolve(res)
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
-    const result = await this.service.byKey(req.params.key)
-    if (!result) {
+    const object = await this.service.byKey(req.params.key)
+    if (!object) {
       res.status(404).end()
       return Promise.resolve(res)
     }
 
-    this.service.deleteModel(result)
+    this.service.deleteModel(object)
     res.status(204).end()
+
+    this.onDeleted(object)
     return Promise.resolve(res)
 
 

@@ -3,7 +3,7 @@ import {ISearchKeyword, SearchKeyword} from "@business/search/SearchKeyword"
 
 export interface ISearchService {
   /**
-   * Search with cron setup
+   * Search with job setup
    */
   withCron(): Promise<ISearchKeyword[] | null>
 }
@@ -15,7 +15,7 @@ export class SearchService extends JsonDBService<ISearchKeyword> implements ISea
   }
 
   /**
-   * Search with cron setup
+   * Search with job setup
    */
   async withCron(): Promise<ISearchKeyword[] | null> {
     try {

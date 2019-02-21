@@ -8,9 +8,9 @@ export interface ISearchKeyword extends IModel {
   readonly lastMatch: Date | null
   readonly isMatched: boolean
 
-  cronRule: string | null
+  cronRule?: string
 
-  bodyRegex: RegExp | null
+  bodyRegex?: RegExp
 
   provider: ProviderType
 
@@ -23,11 +23,11 @@ export interface ISearchKeyword extends IModel {
 export class SearchKeyword implements ISearchKeyword {
   readonly key: string
   readonly createdAt: Date = new Date()
-  private _lastMatch: Date | null = null
+  private _lastMatch?: Date = null
   @Editable()
-  bodyRegex: RegExp | null = null
+  bodyRegex = null
   @Editable()
-  cronRule: string | null = null
+  cronRule = null
   @Editable()
   provider: ProviderType
 
