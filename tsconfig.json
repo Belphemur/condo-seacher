@@ -25,7 +25,7 @@
         "server/business/*"
       ],
       "@inject": [
-        "server/business/injection/Injection"
+        "server/business/injection/Injector"
       ]
     }
   },

@@ -14,7 +14,7 @@ export enum ProviderType {
   KIJIJI = 'kijiji'
 }
 
-export class Injection {
+export class Injector {
   private static readonly serviceMap: Map<Services, IDBService<IModel>> = new Map([
     [Services.SearchKijiji, new SearchService(Services.SearchKijiji, KijijiSearch)]
   ])

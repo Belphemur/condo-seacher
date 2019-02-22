@@ -1,10 +1,10 @@
 import express from "express"
 import {SearchesController} from "../SearchesController"
 import {LocationsCategoriesController} from "@controllers/searches/Kijiji/LocationsCategoriesController"
-import {Injection, Services} from "@inject"
+import {Injector, Services} from "@inject"
 
 
-const controller = new SearchesController(Injection.service(Services.SearchKijiji))
+const controller = new SearchesController(Injector.service(Services.SearchKijiji))
 
 const categorieLocationsController = new LocationsCategoriesController()
 

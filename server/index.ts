@@ -5,12 +5,12 @@ import Server from './common/server'
 import routes from './routes'
 import {CronJobScheduler} from "@business/cronjob/CronJobScheduler"
 import {SearchCronMetadata} from "@business/cronjob/job/SearchCronMetadata"
-import {Injection, Services} from "@inject"
+import {Injector, Services} from "@inject"
 import {ISearchService} from "@services/searches/SearchService"
 
 const port = parseInt(process.env.PORT, 10)
 
-const service: ISearchService = Injection.service(Services.SearchKijiji)
+const service: ISearchService = Injector.service(Services.SearchKijiji)
 service.withCron().then((searches) => {
   searches.forEach((search) => {
     CronJobScheduler.scheduler.addCronJob(new SearchCronMetadata(search))

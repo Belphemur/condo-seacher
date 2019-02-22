@@ -2,7 +2,7 @@ import {ISearchKeyword, SearchKeyword} from "@business/search/SearchKeyword"
 import {IProvider} from "@business/search/provider/IProvider"
 import {Editable} from "@business/model/decorator/Editable"
 import {ISearchService} from "@services/searches/SearchService"
-import {Injection, ProviderType, Services} from "@inject"
+import {Injector, ProviderType, Services} from "@inject"
 
 export interface IKijijiSearch extends ISearchKeyword {
   locationId: number
@@ -17,10 +17,10 @@ export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
 
 
   get provider(): IProvider<ISearchKeyword> {
-    return Injection.searchProvider(ProviderType.KIJIJI)
+    return Injector.searchProvider(ProviderType.KIJIJI)
   }
 
   get service(): ISearchService {
-    return Injection.service(Services.SearchKijiji)
+    return Injector.service(Services.SearchKijiji)
   }
 }
