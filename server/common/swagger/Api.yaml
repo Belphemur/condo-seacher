@@ -30,9 +30,6 @@ definitions:
       bodyRegex:
         type: string
         example: '(condo|dishwasher)'
-      provider:
-        type: string
-        enum: [kijiji]
         
   SearchCreate:
     allOf:
@@ -40,7 +37,6 @@ definitions:
     title: SearchCreate
     required:
       - key
-      - provider
     properties:
       key:
         type: string
@@ -65,7 +61,14 @@ definitions:
         format: date-time
 
 paths:
-  /searches:
+  /searches/{provider}:
+    parameters:
+      - name: provider
+        in: path
+        required: true
+        description: Search Provider
+        type: string
+        enum: [kijiji]
     get:
       tags:
         - Searches
@@ -93,8 +96,17 @@ paths:
           description: Returns created Search
           schema:
             $ref: "#/definitions/Search"
+        422:
+          description: Validation error
 
-  /searches/{key}:
+  /searches/{provider}/{key}:
+    parameters:
+      - name: provider
+        in: path
+        required: true
+        description: Search Provider
+        type: string
+        enum: [kijiji]
     get:
       tags:
         - Searches

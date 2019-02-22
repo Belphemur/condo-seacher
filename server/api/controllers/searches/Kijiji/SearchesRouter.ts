@@ -1,9 +1,11 @@
 import express from "express"
-import {SearchesController} from "./SearchesController"
+import {SearchesController} from "../SearchesController"
 import {SearchService} from "@services/searches/SearchService"
+import {ProviderType} from "@business/search/provider/ProviderTypes"
+import {KijijiSearch} from "@business/search/kijiji/KijijiSearch"
 
 
-const controller = new SearchesController(new SearchService())
+const controller = new SearchesController(new SearchService(ProviderType.KIJIJI, KijijiSearch))
 
 export default express.Router()
   .post('/', (req, res) => controller.create(req, res))

@@ -1,7 +1,8 @@
 import {IModel} from "../model/IModel"
-import {Expose} from "class-transformer"
+import {Expose, Type} from "class-transformer"
 import {ProviderType} from "@business/search/provider/ProviderTypes"
 import {Editable} from "@business/model/decorator/Editable"
+import {IProvider} from "@business/search/provider/IProvider"
 
 export enum SearchType {
   RENT = 'rent',
@@ -17,7 +18,7 @@ export interface ISearchKeyword extends IModel {
 
   bodyRegex?: RegExp
 
-  provider: ProviderType
+  provider: IProvider<ISearchKeyword>
 
   /**
    * Set the fact the search returned result
@@ -25,16 +26,16 @@ export interface ISearchKeyword extends IModel {
   setMatched(): void
 }
 
-export class SearchKeyword implements ISearchKeyword {
+export abstract class SearchKeyword implements ISearchKeyword {
   readonly key: string
+  @Type(() => Date)
   readonly createdAt: Date = new Date()
+  @Type(() => Date)
   private _lastMatch?: Date = null
   @Editable()
   bodyRegex = null
   @Editable()
   cronRule = null
-
-  provider: ProviderType
 
 
   constructor(key: string) {
@@ -44,7 +45,7 @@ export class SearchKeyword implements ISearchKeyword {
   /**
    * When was the last result successful
    */
-  @Expose()
+  @Expose({ toPlainOnly: true })
   get lastMatch(): Date | null {
     return this._lastMatch
   }
@@ -60,8 +61,10 @@ export class SearchKeyword implements ISearchKeyword {
   /**
    * The search returned result
    */
-  @Expose()
+  @Expose({ toPlainOnly: true })
   get isMatched(): boolean {
     return this._lastMatch !== null
   }
+
+  abstract get provider() : IProvider<ISearchKeyword>
 }

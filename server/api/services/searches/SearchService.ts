@@ -1,5 +1,6 @@
 import {JsonDBService} from "../common/JsonDBService"
 import {ISearchKeyword, SearchKeyword} from "@business/search/SearchKeyword"
+import {ClassType} from "class-transformer/ClassTransformer"
 
 export interface ISearchService {
   /**
@@ -10,8 +11,9 @@ export interface ISearchService {
 
 export class SearchService extends JsonDBService<ISearchKeyword> implements ISearchService {
 
-  constructor() {
-    super('searches', SearchKeyword)
+
+  constructor(path: string, classType: ClassType<ISearchKeyword>) {
+    super('searches/' + path, classType)
   }
 
   /**
@@ -19,11 +21,14 @@ export class SearchService extends JsonDBService<ISearchKeyword> implements ISea
    */
   async withCron(): Promise<ISearchKeyword[] | null> {
     try {
-      return Promise.resolve(this.db.filter(this.pathGenerator(), (value: ISearchKeyword) => {
+
+      const results = this.db.filter<ISearchKeyword>(this.pathGenerator(), (value: ISearchKeyword) => {
         return value.cronRule !== null
-      }))
+      })
+
+      return Promise.resolve(results ? results : [])
     } catch (e) {
-      return Promise.resolve(null)
+      return Promise.resolve([])
     }
   }
 }

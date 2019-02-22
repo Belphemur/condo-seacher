@@ -8,6 +8,7 @@ import {IModel} from "@business/model/IModel"
 import {ClassType} from "class-transformer/ClassTransformer"
 
 export interface IDBService<T extends IModel> {
+
   all(): Promise<T[]>
 
   byKey(key: string): Promise<T | null>
@@ -17,6 +18,8 @@ export interface IDBService<T extends IModel> {
   delete(key: string): void
 
   deleteModel(model: T): void
+
+  createDefault(...args: any): T
 }
 
 export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
@@ -43,11 +46,16 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
     return `/${this.path}/${parts.join("/")}`
   }
 
+  createDefault(...args: any): T {
+    return new this.classType(...args)
+  }
+
   all(): Promise<T[]> {
     try {
       const result = _.values(this.db.getData(this.pathGenerator())) as object[]
       return Promise.resolve(plainToClass(this.classType, result))
     } catch (error) {
+      console.log(error)
       L.error("No values", error)
       return Promise.resolve([])
     }
@@ -71,7 +79,7 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
   save(model: T): void {
     const key = model.key
 
-    this.db.push(`/${this.path}/${key}`, classToPlain(model), true)
+    this.db.push(`/${this.path}/${key}`, model, true)
   }
 
   delete(key: string): void {

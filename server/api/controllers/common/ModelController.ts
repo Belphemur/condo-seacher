@@ -4,16 +4,12 @@ import {Request, Response} from "express"
 import {classToPlain, ClassTransformOptions} from "class-transformer"
 import {EditableMetadata, getEditableFields} from "@business/model/decorator/Editable"
 
-export type RequestTranformer = ((value: any) => any) | null
-
 export abstract class ModelController<T extends IModel> {
   protected readonly service: IDBService<T>
-  protected readonly apiPath: string
 
 
-  protected constructor(service: IDBService<T>, apiPath: string) {
+  protected constructor(service: IDBService<T>) {
     this.service = service
-    this.apiPath = apiPath
   }
 
   protected classToPlainOptions(): ClassTransformOptions {
@@ -87,10 +83,15 @@ export abstract class ModelController<T extends IModel> {
   }
 
   async create(req: Request, res: Response): Promise<Response> {
+   if(await this.service.byKey(req.body.key)) {
+     res.status(422)
+       .json({key: req.body.key + ' already exists'})
+     return Promise.resolve(res)
+   }
+
     const object = await this.createObjectFromRequest(req)
     await this.service.save(object)
     res.status(201)
-      .location(`<%= apiRoot %>/${this.apiPath}/${object.key}`)
       .json(this.transformModelToPlain(object))
 
     this.onCreated(object, req)
@@ -110,7 +111,6 @@ export abstract class ModelController<T extends IModel> {
     this.service.save(object)
 
     res.status(200)
-      .location(`<%= apiRoot %>/${this.apiPath}/${object.key}`)
       .json(this.transformModelToPlain(object))
 
     this.onUpdated(object, req)

@@ -1,5 +1,4 @@
 import {ISearchKeyword} from "@business/search/SearchKeyword"
-import {getProvider} from "@business/search/provider/ProviderTypes"
 import {CronJob} from "cron"
 
 export interface ICronMetadata {
@@ -15,7 +14,7 @@ export class SearchCronMetadata implements ICronMetadata {
 
 
   constructor(search: ISearchKeyword) {
-    this.action = () => getProvider(search.provider).processSearch(search)
+    this.action = () => search.provider.processSearch(search)
     this.cronRule = search.cronRule
     this.key = search.key
   }
