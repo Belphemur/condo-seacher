@@ -17,11 +17,27 @@ produces:
 
 
 definitions:
-  SearchUpdate:
-    tags:
-      - Searches
-    type: object
-    title: SearchUpdate
+
+  SearchCreate:
+    allOf:
+      - $ref: "#/definitions/Search"
+    title: SearchCreate
+    required:
+      - key
+    properties:
+      key:
+        type: string
+        example: plateau
+        readOnly: false
+
+  KijijiSearchCreate:
+    allOf:
+      - $ref: "#/definitions/KijijiSearch"
+      - $ref: "#/definitions/SearchCreate"
+    title: KijijiSearchCreate
+        
+  Search:
+    title: SearchObject
     properties:
       cronRule:
         type: string
@@ -30,59 +46,34 @@ definitions:
       bodyRegex:
         type: string
         example: '(condo|dishwasher)'
-
-  KijijiSearchUpdate:
-    allOf:
-      - $ref: "#/definitions/SearchUpdate"
-    title: KijijiSearchUpdate
-    properties:
-      locationId:
-        type: int
-        example: 1
-      categoryId:
-        type: int
-        example: 1
-        
-  SearchCreate:
-    allOf:
-      - $ref: "#/definitions/SearchUpdate"
-    title: SearchCreate
-    required:
-      - key
-    properties:
       key:
         type: string
         example: plateau
-
-  KijijiSearchCreate:
-    allOf:
-      - $ref: "#/definitions/SearchCreate"
-      - $ref: "#/definitions/KijijiSearchUpdate"
-    title: KijijiSearchCreate
-        
-  Search:
-    allOf:
-      - $ref: "#/definitions/SearchUpdate"
-    title: SearchObject
-    properties:
-      key:
-        type: string
-        example: plateau
+        readOnly: true
       isMatched:
         type: boolean
         example: false
+        readOnly: true
       createdAt:
         type: string
         format: date-time
+        readOnly: true
       lastMatch:
         type: string
         format: date-time
+        readOnly: true
 
   KijijiSearch:
     allOf:
-      - $ref: "#/definitions/KijijiSearchUpdate"
       - $ref: "#/definitions/Search"
     title: KijijiSearch
+    properties:
+      locationId:
+        type: number
+        example: 1
+      categoryId:
+        type: number
+        example: 1
 
 paths:
   /searches/kijiji:
@@ -172,7 +163,7 @@ paths:
           description: a search
           required: true
           schema:
-            $ref: "#/definitions/KijijiSearchUpdate"
+            $ref: "#/definitions/KijijiSearch"
       responses:
         200:
           description: Return the updated search

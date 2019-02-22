@@ -23,6 +23,9 @@
       ],
       "@business/*": [
         "server/business/*"
+      ],
+      "@inject": [
+        "server/business/injection/Injection"
       ]
     }
   },

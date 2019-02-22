@@ -1,12 +1,13 @@
 import {ProviderType} from "@business/search/provider/ProviderTypes"
 import {IProvider} from "@business/search/provider/IProvider"
-import {ISearchKeyword} from "@business/search/SearchKeyword"
+import {IKijijiSearch} from "@business/search/kijiji/KijijiSearch"
 
-export class KijijiProvider implements IProvider<ISearchKeyword>{
+export class KijijiProvider implements IProvider<IKijijiSearch> {
 
   public readonly type: ProviderType = ProviderType.KIJIJI
 
-  async processSearch(search: ISearchKeyword): Promise<any> {
+  async processSearch(search: IKijijiSearch): Promise<any> {
+    console.log(search)
     console.log('OK')
     return Promise.resolve()
   }

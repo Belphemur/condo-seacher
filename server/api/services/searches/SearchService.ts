@@ -1,8 +1,8 @@
-import {JsonDBService} from "../common/JsonDBService"
-import {ISearchKeyword, SearchKeyword} from "@business/search/SearchKeyword"
+import {IDBService, JsonDBService} from "../common/JsonDBService"
+import {ISearchKeyword} from "@business/search/SearchKeyword"
 import {ClassType} from "class-transformer/ClassTransformer"
 
-export interface ISearchService {
+export interface ISearchService extends IDBService<ISearchKeyword> {
   /**
    * Search with job setup
    */

@@ -1,12 +1,10 @@
 import express from "express"
 import {SearchesController} from "../SearchesController"
-import {SearchService} from "@services/searches/SearchService"
-import {ProviderType} from "@business/search/provider/ProviderTypes"
-import {KijijiSearch} from "@business/search/kijiji/KijijiSearch"
 import {LocationsCategoriesController} from "@controllers/searches/Kijiji/LocationsCategoriesController"
+import {Injection, Services} from "@inject"
 
 
-const controller = new SearchesController(new SearchService(ProviderType.KIJIJI, KijijiSearch))
+const controller = new SearchesController(Injection.service(Services.SearchKijiji))
 
 const categorieLocationsController = new LocationsCategoriesController()
 

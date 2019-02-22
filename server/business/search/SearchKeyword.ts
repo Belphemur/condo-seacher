@@ -2,6 +2,7 @@ import {IModel} from "../model/IModel"
 import {Expose, Type} from "class-transformer"
 import {Editable} from "@business/model/decorator/Editable"
 import {IProvider} from "@business/search/provider/IProvider"
+import {IDBService} from "@services/common/JsonDBService"
 
 export interface ISearchKeyword extends IModel {
   readonly createdAt: Date
@@ -12,7 +13,7 @@ export interface ISearchKeyword extends IModel {
 
   bodyRegex?: RegExp
 
-  provider: IProvider<ISearchKeyword>
+  readonly provider: IProvider<ISearchKeyword>
 
   /**
    * Set the fact the search returned result
@@ -30,6 +31,8 @@ export abstract class SearchKeyword implements ISearchKeyword {
   bodyRegex = null
   @Editable()
   cronRule = null
+  readonly abstract service: IDBService<IModel>
+  readonly abstract provider: IProvider<ISearchKeyword>
 
 
   constructor(key: string) {
@@ -60,5 +63,4 @@ export abstract class SearchKeyword implements ISearchKeyword {
     return this._lastMatch !== null
   }
 
-  abstract get provider() : IProvider<ISearchKeyword>
 }
