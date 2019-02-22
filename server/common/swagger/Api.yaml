@@ -116,6 +116,24 @@ paths:
         422:
           description: Validation error
 
+  /searches/kijiji/categories:
+    get:
+      tags:
+        - Searches
+      description: Fetch all Available Categories and their ID
+      responses:
+        200:
+          description: "successful operation"
+
+  /searches/kijiji/locations:
+    get:
+      tags:
+        - Searches
+      description: Fetch all Available locations and their ID
+      responses:
+        200:
+          description: "successful operation"
+
   /searches/kijiji/{key}:
     parameters:
       - name: provider

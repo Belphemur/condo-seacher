@@ -3,11 +3,16 @@ import {IProvider} from "@business/search/provider/IProvider"
 import {getProvider, ProviderType} from "@business/search/provider/ProviderTypes"
 import {Editable} from "@business/model/decorator/Editable"
 
-export class KijijiSearch extends SearchKeyword {
+interface IKijijiSearch extends ISearchKeyword{
+  locationId: number
+  categoryId: number
+}
+
+export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
   @Editable()
-  public locationId: number
+  locationId: number
   @Editable()
-  public categoryId : number
+  categoryId: number
 
 
   get provider(): IProvider<ISearchKeyword> {
