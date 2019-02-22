@@ -79,7 +79,7 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
   save(model: T): void {
     const key = model.key
 
-    this.db.push(`/${this.path}/${key}`, model, true)
+    this.db.push(this.pathGenerator(key), model, true)
   }
 
   delete(key: string): void {
