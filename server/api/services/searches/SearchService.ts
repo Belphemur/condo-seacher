@@ -22,11 +22,15 @@ export class SearchService extends JsonDBService<ISearchKeyword> implements ISea
   async withCron(): Promise<ISearchKeyword[] | null> {
     try {
 
-      const results = this.db.filter<ISearchKeyword>(this.pathGenerator(), (value: ISearchKeyword) => {
+      let results = this.db.filter<ISearchKeyword>(this.pathGenerator(), (value: ISearchKeyword) => {
         return value.cronRule !== null
       })
 
-      return Promise.resolve(results ? results : [])
+      if(!results) {
+        results = []
+      }
+
+      return Promise.resolve(this.plainToClass(results) as ISearchKeyword[])
     } catch (e) {
       return Promise.resolve([])
     }

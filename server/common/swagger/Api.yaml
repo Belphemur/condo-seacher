@@ -30,6 +30,18 @@ definitions:
       bodyRegex:
         type: string
         example: '(condo|dishwasher)'
+
+  KijijiSearchUpdate:
+    allOf:
+      - $ref: "#/definitions/SearchUpdate"
+    title: KijijiSearchUpdate
+    properties:
+      locationId:
+        type: int
+        example: 1
+      categoryId:
+        type: int
+        example: 1
         
   SearchCreate:
     allOf:
@@ -41,6 +53,12 @@ definitions:
       key:
         type: string
         example: plateau
+
+  KijijiSearchCreate:
+    allOf:
+      - $ref: "#/definitions/SearchCreate"
+      - $ref: "#/definitions/KijijiSearchUpdate"
+    title: KijijiSearchCreate
         
   Search:
     allOf:
@@ -60,15 +78,14 @@ definitions:
         type: string
         format: date-time
 
+  KijijiSearch:
+    allOf:
+      - $ref: "#/definitions/KijijiSearchUpdate"
+      - $ref: "#/definitions/Search"
+    title: KijijiSearch
+
 paths:
-  /searches/{provider}:
-    parameters:
-      - name: provider
-        in: path
-        required: true
-        description: Search Provider
-        type: string
-        enum: [kijiji]
+  /searches/kijiji:
     get:
       tags:
         - Searches
@@ -79,7 +96,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Search"
+              $ref: "#/definitions/KijijiSearch"
     post:
       tags:
         - Searches
@@ -90,16 +107,16 @@ paths:
           description: a search
           required: true
           schema:
-            $ref: "#/definitions/SearchCreate"
+            $ref: "#/definitions/KijijiSearchCreate"
       responses:
         201:
           description: Returns created Search
           schema:
-            $ref: "#/definitions/Search"
+            $ref: "#/definitions/KijijiSearch"
         422:
           description: Validation error
 
-  /searches/{provider}/{key}:
+  /searches/kijiji/{key}:
     parameters:
       - name: provider
         in: path
@@ -120,7 +137,7 @@ paths:
         200:
           description: Return the search with the specified key
           schema:
-            $ref: "#/definitions/Search"
+            $ref: "#/definitions/KijijiSearch"
         404:
           description: Search not found
     put:
@@ -137,12 +154,12 @@ paths:
           description: a search
           required: true
           schema:
-            $ref: "#/definitions/SearchUpdate"
+            $ref: "#/definitions/KijijiSearchUpdate"
       responses:
         200:
           description: Return the updated search
           schema:
-            $ref: "#/definitions/Search"
+            $ref: "#/definitions/KijijiSearch"
         404:
           description: Search not found
     delete:

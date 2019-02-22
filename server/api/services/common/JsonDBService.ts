@@ -53,14 +53,17 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
   all(): Promise<T[]> {
     try {
       const result = _.values(this.db.getData(this.pathGenerator())) as object[]
-      return Promise.resolve(plainToClass(this.classType, result))
+      return Promise.resolve(this.plainToClass(result) as T[])
     } catch (error) {
       console.log(error)
       L.error("No values", error)
       return Promise.resolve([])
     }
 
+  }
 
+  protected plainToClass(result) {
+    return plainToClass<T | T[], object>(this.classType, result)
   }
 
   byKey(key: string): Promise<T | null> {
@@ -73,7 +76,7 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
       return Promise.resolve(search)
     }
 
-    return Promise.resolve(plainToClass<T, object>(this.classType, search))
+    return Promise.resolve(this.plainToClass(search) as T)
   }
 
   save(model: T): void {
