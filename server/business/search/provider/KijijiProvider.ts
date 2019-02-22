@@ -1,4 +1,4 @@
-import {ProviderType} from "@business/search/provider/ProviderTypes"
+import {ProviderType} from "@business/injection/Injection"
 import {IProvider} from "@business/search/provider/IProvider"
 import {IKijijiSearch} from "@business/search/kijiji/KijijiSearch"
 
