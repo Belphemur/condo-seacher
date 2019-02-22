@@ -1,7 +1,7 @@
 import {IDBService} from "@services/common/JsonDBService"
 import {IModel} from "@business/model/IModel"
 import {Request, Response} from "express"
-import {classToPlain, ClassTransformOptions} from "class-transformer"
+import {classToPlain} from "class-transformer"
 import {EditableMetadata, getEditableFields} from "@business/model/decorator/Editable"
 
 export abstract class ModelController<T extends IModel> {
@@ -12,12 +12,8 @@ export abstract class ModelController<T extends IModel> {
     this.service = service
   }
 
-  protected classToPlainOptions(): ClassTransformOptions {
-    return {excludePrefixes: ['_']}
-  }
-
   protected transformModelToPlain(object: T | T[]): Object {
-    return classToPlain(object, this.classToPlainOptions())
+    return classToPlain(object)
   }
 
   /**

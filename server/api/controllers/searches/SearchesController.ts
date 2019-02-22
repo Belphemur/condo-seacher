@@ -1,9 +1,9 @@
 import {ModelController} from "../common/ModelController"
 import {ISearchKeyword} from "@business/search/SearchKeyword"
-import {Request, Response} from "express"
+import {Request} from "express"
 import {IDBService} from "@services/common/JsonDBService"
 import {CronJobScheduler} from "@business/cronjob/CronJobScheduler"
-import {SearchCronMetadata} from "@business/cronjob/job/ICronMetadata"
+import {SearchCronMetadata} from "@business/cronjob/job/SearchCronMetadata"
 
 export class SearchesController extends ModelController<ISearchKeyword> {
 

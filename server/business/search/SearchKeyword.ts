@@ -1,8 +1,8 @@
 import {IModel} from "../model/IModel"
-import {Expose, Type} from "class-transformer"
+import {Exclude, Expose, Type} from "class-transformer"
 import {Editable} from "@business/model/decorator/Editable"
 import {IProvider} from "@business/search/provider/IProvider"
-import {IDBService} from "@services/common/JsonDBService"
+import {ISearchService} from "@services/searches/SearchService"
 
 export interface ISearchKeyword extends IModel {
   readonly createdAt: Date
@@ -15,6 +15,8 @@ export interface ISearchKeyword extends IModel {
 
   readonly provider: IProvider<ISearchKeyword>
 
+  readonly service: ISearchService
+
   /**
    * Set the fact the search returned result
    */
@@ -26,13 +28,16 @@ export abstract class SearchKeyword implements ISearchKeyword {
   @Type(() => Date)
   readonly createdAt: Date = new Date()
   @Type(() => Date)
+  @Exclude()
   private _lastMatch?: Date = null
   @Editable()
   bodyRegex = null
   @Editable()
   cronRule = null
-  readonly abstract service: IDBService<IModel>
-  readonly abstract provider: IProvider<ISearchKeyword>
+
+  abstract get service(): ISearchService
+
+  abstract get provider(): IProvider<ISearchKeyword>
 
 
   constructor(key: string) {

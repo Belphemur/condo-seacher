@@ -4,7 +4,7 @@ import './common/env'
 import Server from './common/server'
 import routes from './routes'
 import {CronJobScheduler} from "@business/cronjob/CronJobScheduler"
-import {SearchCronMetadata} from "@business/cronjob/job/ICronMetadata"
+import {SearchCronMetadata} from "@business/cronjob/job/SearchCronMetadata"
 import {Injection, Services} from "@inject"
 import {ISearchService} from "@services/searches/SearchService"
 

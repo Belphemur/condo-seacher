@@ -11,7 +11,6 @@ export interface IKijijiSearch extends ISearchKeyword {
 }
 
 export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
-  readonly service: ISearchService = Injection.service(Services.SearchKijiji)
   @Editable()
   locationId: number
   @Editable()
@@ -20,5 +19,9 @@ export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
 
   get provider(): IProvider<ISearchKeyword> {
     return getProvider(ProviderType.KIJIJI)
+  }
+
+  get service(): ISearchService {
+    return Injection.service(Services.SearchKijiji)
   }
 }

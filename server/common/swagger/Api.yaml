@@ -126,13 +126,6 @@ paths:
           description: "successful operation"
 
   /searches/kijiji/{key}:
-    parameters:
-      - name: provider
-        in: path
-        required: true
-        description: Search Provider
-        type: string
-        enum: [kijiji]
     get:
       tags:
         - Searches
