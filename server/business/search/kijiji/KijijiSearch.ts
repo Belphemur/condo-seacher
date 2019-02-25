@@ -1,8 +1,8 @@
-import {ISearchKeyword, SearchKeyword} from "@business/search/SearchKeyword"
-import {IProvider} from "@business/search/provider/IProvider"
-import {Editable} from "@business/model/decorator/Editable"
-import {ISearchService} from "@services/searches/SearchService"
-import {Injector, ProviderType, Services} from "@inject"
+import { ISearchKeyword, SearchKeyword } from '@business/search/SearchKeyword'
+import { IProvider } from '@business/search/provider/IProvider'
+import { Editable } from '@business/model/decorator/Editable'
+import { ISearchService } from '@services/searches/SearchService'
+import { Injector, ProviderType, Services } from '@inject'
 
 export interface IKijijiSearch extends ISearchKeyword {
   locationId: number
@@ -14,7 +14,6 @@ export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
   locationId: number
   @Editable()
   categoryId: number
-
 
   get provider(): IProvider<ISearchKeyword> {
     return Injector.searchProvider(ProviderType.KIJIJI)
