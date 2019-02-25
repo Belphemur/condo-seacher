@@ -1,4 +1,4 @@
-import {IModel} from "@business/model/IModel"
+import { IModel } from "@business/model/IModel"
 
 export class EditableMetadata {
   field: string
@@ -18,13 +18,16 @@ export type EditableTransformer = (value: any) => any
 
 const editableFields: Map<Function, Map<string, EditableMetadata>> = new Map()
 
+// tslint:disable-next-line
 export function Editable(transformer: EditableTransformer = (value) => value) {
   return (target: any, propertyKey: string) => {
     if (!editableFields.has(target.constructor)) {
       editableFields.set(target.constructor, new Map<string, EditableMetadata>())
     }
 
-    editableFields.get(target.constructor).set(propertyKey, new EditableMetadata(propertyKey, transformer))
+    editableFields
+      .get(target.constructor)
+      .set(propertyKey, new EditableMetadata(propertyKey, transformer))
   }
 }
 
