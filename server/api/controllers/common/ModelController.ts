@@ -1,12 +1,11 @@
-import {IDBService} from "@services/common/JsonDBService"
-import {IModel} from "@business/model/IModel"
-import {Request, Response} from "express"
-import {classToPlain} from "class-transformer"
-import {EditableMetadata, getEditableFields} from "@business/model/decorator/Editable"
+import { IDBService } from '@services/common/JsonDBService'
+import { IModel } from '@business/model/IModel'
+import { Request, Response } from 'express'
+import { classToPlain } from 'class-transformer'
+import { EditableMetadata, getEditableFields } from '@business/model/decorator/Editable'
 
 export abstract class ModelController<T extends IModel> {
   protected readonly service: IDBService<T>
-
 
   protected constructor(service: IDBService<T>) {
     this.service = service
@@ -28,8 +27,9 @@ export abstract class ModelController<T extends IModel> {
    * @param req
    */
   protected updateObjectFromRequest(object: T, req: Request): void {
-    getEditableFields(object).forEach((metadata: EditableMetadata) => {
-      if (!req.body[metadata.field]) {
+    const editableFields = getEditableFields(object)
+    editableFields.forEach((metadata: EditableMetadata) => {
+      if (req.body[metadata.field] === undefined) {
         return
       }
       metadata.setValue(object, req.body[metadata.field])
@@ -41,7 +41,7 @@ export abstract class ModelController<T extends IModel> {
    * @param object
    * @param req
    */
-  protected onUpdated(object: T, req: Request) : void {
+  protected onUpdated(object: T, req: Request): void {
 
   }
 
@@ -50,7 +50,7 @@ export abstract class ModelController<T extends IModel> {
    * @param object
    * @param req
    */
-  protected onCreated(object: T, req: Request) : void {
+  protected onCreated(object: T, req: Request): void {
 
   }
 
@@ -58,7 +58,7 @@ export abstract class ModelController<T extends IModel> {
    * When the object has been deleted
    * @param object
    */
-  protected onDeleted(object: T) : void {
+  protected onDeleted(object: T): void {
 
   }
 
@@ -79,11 +79,13 @@ export abstract class ModelController<T extends IModel> {
   }
 
   async create(req: Request, res: Response): Promise<Response> {
-   if(await this.service.byKey(req.body.key)) {
-     res.status(422)
-       .json({key: req.body.key + ' already exists'})
-     return Promise.resolve(res)
-   }
+    if (await this.service.byKey(req.body.key)) {
+      res.status(422)
+        .json({
+          key: `${req.body.key} already exists`,
+        })
+      return Promise.resolve(res)
+    }
 
     const object = await this.createObjectFromRequest(req)
     await this.service.save(object)
@@ -126,7 +128,6 @@ export abstract class ModelController<T extends IModel> {
 
     this.onDeleted(object)
     return Promise.resolve(res)
-
 
   }
 }
