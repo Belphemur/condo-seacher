@@ -62,6 +62,12 @@ definitions:
         type: string
         format: date-time
         readOnly: true
+      minPrice:
+        type: integer
+        minimum: 0
+      maxPrice:
+        type: integer
+        minimum: 0
 
   KijijiSearch:
     allOf:
