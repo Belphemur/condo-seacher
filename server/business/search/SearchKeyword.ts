@@ -3,6 +3,7 @@ import { Exclude, Expose, Type } from 'class-transformer'
 import { Editable } from '@business/model/decorator/Editable'
 import { IProvider } from '@business/search/provider/IProvider'
 import { ISearchService } from '@services/searches/SearchService'
+import { IActionExecutor } from '@business/action/IActionExecutor'
 
 export interface ISearchKeyword extends IModel {
   readonly createdAt: Date
@@ -19,6 +20,8 @@ export interface ISearchKeyword extends IModel {
   readonly provider: IProvider<ISearchKeyword>
 
   readonly service: ISearchService
+
+  readonly action: IActionExecutor<ISearchKeyword>
 
   /**
    * Set the fact the search returned result
@@ -46,6 +49,8 @@ export abstract class SearchKeyword implements ISearchKeyword {
   abstract get service(): ISearchService
 
   abstract get provider(): IProvider<ISearchKeyword>
+
+  abstract get action(): IActionExecutor<ISearchKeyword>
 
   constructor(key: string) {
     this.key = key

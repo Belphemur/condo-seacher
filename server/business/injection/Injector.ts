@@ -7,6 +7,10 @@ import { ISearchKeyword } from '@business/search/SearchKeyword'
 import { KijijiProvider } from '@business/search/provider/KijijiProvider'
 import { CacheProvider } from '@business/search/provider/CacheProvider'
 import { JsonDatabase } from '@business/database/JsonDatabase'
+import { IActionExecutor } from '@business/action/IActionExecutor'
+import { PushbulletAction } from '@business/action/pushbullet/PushbulletAction'
+
+import pushbullet from 'pushbullet'
 
 export enum Services {
   SearchKijiji = 'kijiji',
@@ -14,6 +18,10 @@ export enum Services {
 
 export enum ProviderType {
   KIJIJI = 'kijiji',
+}
+
+export enum ActionType {
+  PUSHBULLET = 'pushbullet',
 }
 
 export class Injector {
@@ -24,6 +32,13 @@ export class Injector {
   private static readonly providerMap: Map<ProviderType, IProvider<ISearchKeyword>> = new Map([
     [ProviderType.KIJIJI, new CacheProvider(JsonDatabase.db, new KijijiProvider())],
   ])
+
+  /* tslint:disable */
+  private static readonly actionMap: Map<ActionType, IActionExecutor<ISearchKeyword>> = new Map([
+    [ActionType.PUSHBULLET, new PushbulletAction(new pushbullet(process.env.PUSHBULLET_KEY), Injector.service(Services.SearchKijiji))],
+  ])
+
+  /* tslint:enable */
 
   static service<T extends IDBService<IModel>>(service: Services): T {
     const result = this.serviceMap.get(service)
@@ -36,7 +51,15 @@ export class Injector {
   static searchProvider<T extends IProvider<ISearchKeyword>>(provider: ProviderType): T {
     const result = this.providerMap.get(provider)
     if (!result) {
-      throw new Error('searchProvider not bound')
+      throw new Error('SearchProvider not bound')
+    }
+    return result as T
+  }
+
+  static action<T extends IActionExecutor<ISearchKeyword>>(action: ActionType): T {
+    const result = this.actionMap.get(action)
+    if (!result) {
+      throw new Error('Action not bound')
     }
     return result as T
   }

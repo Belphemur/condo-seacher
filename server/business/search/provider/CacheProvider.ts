@@ -30,8 +30,6 @@ export class CacheProvider<T extends ISearchKeyword> implements IProvider<T> {
       this.db.push(this.getKey(ad), today.toISOString(), true)
     })
 
-    console.log(result)
-
     return Promise.resolve(result)
   }
 }

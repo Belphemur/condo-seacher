@@ -24,6 +24,7 @@
     "lodash": "^4.17.11",
     "node-json-db": "^0.10.0",
     "pino": "^5.8.1",
+    "pushbullet": "^2.4.0",
     "reflect-metadata": "^0.1.13",
     "swagger-express-middleware": "^2.0.1"
   },

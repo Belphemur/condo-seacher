@@ -1,12 +1,18 @@
 import { ISearchKeyword } from '@business/search/SearchKeyword'
 
+export interface IAdAttribute {
+  price?: number
+
+  [key: string]: any
+}
+
 export interface IAd {
   title: string
   description: string
   date: Date
   image: string
   images: string[]
-  attributes: object
+  attributes: IAdAttribute
   url: string
 }
 
