@@ -28,7 +28,6 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
         return bodyRegex.test(ad.description)
       })
     }
-    console.log(ads)
     return Promise.resolve(ads)
   }
 

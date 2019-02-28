@@ -1,4 +1,4 @@
-import { ISearchKeyword } from "@business/search/SearchKeyword"
+import { ISearchKeyword } from '@business/search/SearchKeyword'
 
 export interface IAd {
   title: string

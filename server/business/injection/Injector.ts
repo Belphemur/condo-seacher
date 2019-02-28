@@ -1,26 +1,28 @@
-import {IDBService} from "@services/common/JsonDBService"
-import {IModel} from "../model/IModel"
-import {SearchService} from "@services/searches/SearchService"
-import {KijijiSearch} from "../search/kijiji/KijijiSearch"
-import {IProvider} from "@business/search/provider/IProvider"
-import {ISearchKeyword} from "@business/search/SearchKeyword"
-import {KijijiProvider} from "@business/search/provider/KijijiProvider"
+import { IDBService } from '@services/common/JsonDBService'
+import { IModel } from '../model/IModel'
+import { SearchService } from '@services/searches/SearchService'
+import { KijijiSearch } from '../search/kijiji/KijijiSearch'
+import { IProvider } from '@business/search/provider/IProvider'
+import { ISearchKeyword } from '@business/search/SearchKeyword'
+import { KijijiProvider } from '@business/search/provider/KijijiProvider'
+import { CacheProvider } from '@business/search/provider/CacheProvider'
+import { JsonDatabase } from '@business/database/JsonDatabase'
 
 export enum Services {
-  SearchKijiji = 'kijiji'
+  SearchKijiji = 'kijiji',
 }
 
 export enum ProviderType {
-  KIJIJI = 'kijiji'
+  KIJIJI = 'kijiji',
 }
 
 export class Injector {
   private static readonly serviceMap: Map<Services, IDBService<IModel>> = new Map([
-    [Services.SearchKijiji, new SearchService(Services.SearchKijiji, KijijiSearch)]
+    [Services.SearchKijiji, new SearchService(Services.SearchKijiji, KijijiSearch)],
   ])
 
   private static readonly providerMap: Map<ProviderType, IProvider<ISearchKeyword>> = new Map([
-    [ProviderType.KIJIJI, new KijijiProvider()]
+    [ProviderType.KIJIJI, new CacheProvider(JsonDatabase.db, new KijijiProvider())],
   ])
 
   static service<T extends IDBService<IModel>>(service: Services): T {
