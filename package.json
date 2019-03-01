@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "ts-node -r tsconfig-paths/register build.ts && tsc",
-    "dev": "nodemon -r tsconfig-paths/register server/index.ts | pino-pretty",
+    "dev": "nodemon -r tsconfig-paths/register server/index.ts",
     "dev:debug": "nodemon --exec 'node -r tsconfig-paths/register --inspect-brk' server/index.ts | pino-pretty",
     "test": "mocha test/**/*.ts --exit",
     "test:debug": "mocha --inspect-brk test/**/*.ts --exit",

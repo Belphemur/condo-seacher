@@ -15,7 +15,7 @@ export interface ISearchKeyword extends IModel {
 
   cronRule?: string
 
-  bodyRegex?: RegExp
+  bodyMatch: string[]
 
   readonly provider: IProvider<ISearchKeyword>
 
@@ -37,7 +37,7 @@ export abstract class SearchKeyword implements ISearchKeyword {
   @Exclude()
   private LAST_MATCH?: Date = null
   @Editable()
-  bodyRegex = null
+  bodyMatch = []
   @Editable()
   cronRule = null
 

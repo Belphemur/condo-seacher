@@ -3,6 +3,7 @@ import { IAd, IProvider } from '@business/search/provider/IProvider'
 import { IKijijiSearch } from '@business/search/kijiji/KijijiSearch'
 import { search as kSearch } from 'kijiji-scraper'
 import { L } from '@/common/logger'
+import { Str } from '@/utils/Str'
 
 export class KijijiProvider implements IProvider<IKijijiSearch> {
 
@@ -24,10 +25,9 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     let ads: IAd[] = []
     try {
       ads = await kSearch(searchParams)
-      if (search.bodyRegex) {
-        const bodyRegex = new RegExp(search.bodyRegex).compile()
+      if (search.bodyMatch.length > 0) {
         ads = ads.filter((ad: IAd) => {
-          return bodyRegex.test(ad.description)
+          return Str.contains(ad.description, search.bodyMatch)
         })
       }
     } catch (error) {
