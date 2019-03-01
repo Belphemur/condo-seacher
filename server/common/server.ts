@@ -1,12 +1,11 @@
-import express from 'express'
-import {Application} from 'express'
+import express, { Application } from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import http from 'http'
 import os from 'os'
 import cookieParser from 'cookie-parser'
-import swaggerify from './swagger'
-import l from './logger'
+import swagger from './swagger'
+import { L } from './logger'
 
 const app = express()
 
@@ -21,12 +20,12 @@ export default class ExpressServer {
   }
 
   router(routes: (app: Application) => void): ExpressServer {
-    swaggerify(app, routes)
+    swagger(app, routes)
     return this
   }
 
   listen(p: string | number = process.env.PORT): Application {
-    const welcome = port => () => l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${port}}`)
+    const welcome = port => () => L.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${port}}`)
     http.createServer(app).listen(p, welcome(p))
     return app
   }

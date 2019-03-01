@@ -1,6 +1,6 @@
-import {CronJob} from "cron"
-import L from "@/common/logger"
-import {ICronMetadata} from "@business/cronjob/job/ICronMetadata"
+import { CronJob } from 'cron'
+import { L } from '@/common/logger'
+import { ICronMetadata } from '@business/cronjob/job/ICronMetadata'
 
 class CronJobContainer {
   cronJob: CronJob
@@ -25,7 +25,6 @@ class CronJobContainer {
 export class CronJobScheduler {
   private crons: Map<string, CronJobContainer> = new Map()
 
-
   private static instance: CronJobScheduler
 
   private constructor() {
@@ -37,7 +36,6 @@ export class CronJobScheduler {
     }
     return CronJobScheduler.instance
   }
-
 
   public addCronJob(cron: ICronMetadata): boolean {
     if (this.crons.has(cron.key)) {

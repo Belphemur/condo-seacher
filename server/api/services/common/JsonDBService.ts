@@ -1,11 +1,11 @@
-import JsonDB from "node-json-db"
+import nodeJsonDb from 'node-json-db'
 
-import L from "../../../common/logger"
-import {JsonDatabase} from "@business/database/JsonDatabase"
-import {classToPlain, plainToClass} from "class-transformer"
-import _ from 'lodash'
-import {IModel} from "@business/model/IModel"
-import {ClassType} from "class-transformer/ClassTransformer"
+import { JsonDatabase } from '@business/database/JsonDatabase'
+import { plainToClass } from 'class-transformer'
+import lodash from 'lodash'
+import { IModel } from '@business/model/IModel'
+import { ClassType } from 'class-transformer/ClassTransformer'
+import { L } from '@/common/logger'
 
 export interface IDBService<T extends IModel> {
 
@@ -24,10 +24,9 @@ export interface IDBService<T extends IModel> {
 
 export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
 
-  protected readonly db: JsonDB
+  protected readonly db: nodeJsonDb
   private readonly path: string
   private readonly classType: ClassType<T>
-
 
   protected constructor(path: string, classType: ClassType<T>) {
     this.db = JsonDatabase.db
@@ -43,7 +42,7 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
     if (parts.length === 0) {
       return `/${this.path}`
     }
-    return `/${this.path}/${parts.join("/")}`
+    return `/${this.path}/${parts.join('/')}`
   }
 
   createDefault(...args: any): T {
@@ -52,11 +51,11 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
 
   all(): Promise<T[]> {
     try {
-      const result = _.values(this.db.getData(this.pathGenerator())) as object[]
+      const result = lodash.values(this.db.getData(this.pathGenerator())) as object[]
       return Promise.resolve(this.plainToClass(result) as T[])
     } catch (error) {
       console.log(error)
-      L.error("No values", error)
+      L.error('No values', error)
       return Promise.resolve([])
     }
 
