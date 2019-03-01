@@ -1,6 +1,6 @@
-import {IDBService, JsonDBService} from "../common/JsonDBService"
-import {ISearchKeyword} from "@business/search/SearchKeyword"
-import {ClassType} from "class-transformer/ClassTransformer"
+import { IDBService, JsonDBService } from '../common/JsonDBService'
+import { ISearchKeyword } from '@business/search/SearchKeyword'
+import { ClassType } from 'class-transformer/ClassTransformer'
 
 export interface ISearchService extends IDBService<ISearchKeyword> {
   /**
@@ -11,9 +11,8 @@ export interface ISearchService extends IDBService<ISearchKeyword> {
 
 export class SearchService extends JsonDBService<ISearchKeyword> implements ISearchService {
 
-
   constructor(path: string, classType: ClassType<ISearchKeyword>) {
-    super('searches/' + path, classType)
+    super(`searches/${path}`, classType)
   }
 
   /**
@@ -26,7 +25,7 @@ export class SearchService extends JsonDBService<ISearchKeyword> implements ISea
         return value.cronRule !== null
       })
 
-      if(!results) {
+      if (!results) {
         results = []
       }
 
