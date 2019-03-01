@@ -5,9 +5,14 @@ import { ISearchService } from '@services/searches/SearchService'
 import { ActionType, Injector, ProviderType, Services } from '@inject'
 import { IActionExecutor } from '@business/action/IActionExecutor'
 
+export interface ExtraKijijiSearchAttribute {
+  [key: string]: string | number | string[] | number[]
+}
+
 export interface IKijijiSearch extends ISearchKeyword {
   locationId: number
   categoryId: number
+  extraAttributes: ExtraKijijiSearchAttribute[]
 }
 
 export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
@@ -15,6 +20,8 @@ export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
   locationId: number
   @Editable()
   categoryId: number
+  @Editable()
+  extraAttributes: ExtraKijijiSearchAttribute[] = []
 
   get provider(): IProvider<ISearchKeyword> {
     return Injector.searchProvider(ProviderType.KIJIJI)

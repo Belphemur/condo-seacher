@@ -1,19 +1,21 @@
 import { ProviderType } from '@business/injection/Injector'
 import { IAd, IProvider } from '@business/search/provider/IProvider'
-import { IKijijiSearch } from '@business/search/kijiji/KijijiSearch'
+import { ExtraKijijiSearchAttribute, IKijijiSearch } from '@business/search/kijiji/KijijiSearch'
 import { search as kSearch } from 'kijiji-scraper'
 import { L } from '@/common/logger'
 import { Str } from '@/utils/Str'
+import lodash from 'lodash'
 
 export class KijijiProvider implements IProvider<IKijijiSearch> {
 
   public readonly type: ProviderType = ProviderType.KIJIJI
 
   async processSearch(search: IKijijiSearch): Promise<IAd[]> {
-    const searchParams = {
+    let searchParams = {
       locationId: search.locationId,
       categoryId: search.categoryId,
       keywords: search.key.split(' ').join('+'),
+      sortByName: 'dateDesc',
     }
 
     if (search.maxPrice) {
@@ -21,6 +23,12 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     }
     if (search.minPrice) {
       searchParams['minPrice'] = search.maxPrice
+    }
+    if (search.extraAttributes.length > 0) {
+      search.extraAttributes.forEach((extraArg: ExtraKijijiSearchAttribute) => {
+        const stringified = lodash.mapValues(extraArg, (value: any) => JSON.stringify(value))
+        searchParams = lodash.merge(searchParams, stringified)
+      })
     }
     let ads: IAd[] = []
     try {
@@ -31,7 +39,7 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
         })
       }
     } catch (error) {
-      L.error('Problem with Kijiji', error)
+      L.error(error, 'Problem with Kijiji')
     }
     return Promise.resolve(ads)
   }

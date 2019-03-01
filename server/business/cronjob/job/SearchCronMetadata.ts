@@ -8,8 +8,9 @@ export class SearchCronMetadata implements ICronMetadata {
 
   constructor(search: ISearchKeyword) {
     this.action = async () => {
-      const result = await search.provider.processSearch(await search.service.byKey(search.key))
-      search.action.execute(search, result)
+      const currentSearch = await search.service.byKey(search.key)
+      const result = await currentSearch.provider.processSearch(currentSearch)
+      currentSearch.action.execute(currentSearch, result)
       return Promise.resolve(result)
     }
     this.cronRule = search.cronRule

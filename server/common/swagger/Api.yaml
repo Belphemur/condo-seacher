@@ -35,7 +35,7 @@ definitions:
       - $ref: "#/definitions/KijijiSearch"
       - $ref: "#/definitions/SearchCreate"
     title: KijijiSearchCreate
-        
+
   Search:
     title: SearchObject
     properties:
@@ -72,6 +72,16 @@ definitions:
       maxPrice:
         type: integer
         minimum: 0
+      extraAttributes:
+        type: array
+        items:
+          type: object
+        example:
+          - { "attributeMap[numberbedrooms_s]":    [2,9,3]}
+          - { "attributeFiltersMin[areainfeet_i]": 800}
+          - { "attributeFiltersMax[areainfeet_i]": 1200}
+          - { "attributeMap[adType]": ["OFFER"]}
+        description: "Open the network tab on Kijiji then do a search on kijiji then check for a request to <b>b-search.html</b>. You'll find there all the extra attribute you can use."
 
   KijijiSearch:
     allOf:
