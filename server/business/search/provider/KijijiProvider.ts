@@ -22,7 +22,7 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
       searchParams['maxPrice'] = search.maxPrice
     }
     if (search.minPrice) {
-      searchParams['minPrice'] = search.maxPrice
+      searchParams['minPrice'] = search.minPrice
     }
     if (search.extraAttributes.length > 0) {
       search.extraAttributes.forEach((extraArg: ExtraKijijiSearchAttribute) => {
