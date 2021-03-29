@@ -1,14 +1,15 @@
-import nodeJsonDb from 'node-json-db'
+import { JsonDB } from 'node-json-db'
+import { Config } from 'node-json-db/dist/lib/JsonDBConfig'
 import { IAd, IProvider } from '@business/search/provider/IProvider'
 import { ISearchKeyword } from '@business/search/SearchKeyword'
 import crypto from 'crypto'
 
 export class CacheProvider<T extends ISearchKeyword> implements IProvider<T> {
 
-  private db: nodeJsonDb
+  private db: JsonDB
   private provider: IProvider<T>
 
-  constructor(db: nodeJsonDb, provider: IProvider<T>) {
+  constructor(db: JsonDB, provider: IProvider<T>) {
     this.db = db
     this.provider = provider
   }
