@@ -2557,7 +2557,7 @@
   "resolved" "https://registry.npmjs.org/node-forge/-/node-forge-0.7.6.tgz"
   "version" "0.7.6"
 
-"node-json-db@^1.0.0":
+"node-json-db@^1.3.0":
   "integrity" "sha512-3IK9KuqfKdK12zFKtzmnD6Y5J9qL0TY0gnnZ5XKpzdhCP019zOxPxGCaH6cmIqiho2ymFgcTMKQeJvYkbBFraQ=="
   "resolved" "https://registry.npmjs.org/node-json-db/-/node-json-db-1.3.0.tgz"
   "version" "1.3.0"
