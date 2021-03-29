@@ -1,6 +1,6 @@
 import { IDBService, JsonDBService } from '../common/JsonDBService'
 import { ISearchKeyword } from '@business/search/SearchKeyword'
-import { ClassType } from 'class-transformer/ClassTransformer'
+import { ClassType } from 'class-transformer/esm2015/ClassTransformer'
 
 export interface ISearchService extends IDBService<ISearchKeyword> {
   /**

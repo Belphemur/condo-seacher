@@ -4,7 +4,7 @@ import { JsonDatabase } from '@business/database/JsonDatabase'
 import { plainToClass } from 'class-transformer'
 import lodash from 'lodash'
 import { IModel } from '@business/model/IModel'
-import { ClassType } from 'class-transformer/ClassTransformer'
+import { ClassType } from 'class-transformer/esm2015/ClassTransformer'
 import { L } from '@/common/logger'
 
 export interface IDBService<T extends IModel> {

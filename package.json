@@ -1,6 +1,6 @@
 {
   "name": "kijiji",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Kijiji Scraper",
   "main": "index.js",
   "scripts": {
@@ -13,20 +13,20 @@
     "postbuild": "ef-tspm"
   },
   "dependencies": {
-    "bluebird": "^3.5.3",
-    "body-parser": "^1.18.3",
-    "class-transformer": "^0.2.0",
-    "cookie-parser": "^1.4.3",
-    "cron": "^1.6.0",
-    "dotenv": "^6.1.0",
-    "express": "^4.16.4",
-    "kijiji-scraper": "^4.0.5",
-    "lodash": "^4.17.11",
-    "node-json-db": "^0.10.0",
-    "pino": "^5.8.1",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.0",
+    "class-transformer": "^0.4.0",
+    "cookie-parser": "^1.4.5",
+    "cron": "^1.8.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "kijiji-scraper": "^6.1.3",
+    "lodash": "^4.17.21",
+    "node-json-db": "^1.3.0",
+    "pino": "^6.11.2",
     "pushbullet": "^2.4.0",
     "reflect-metadata": "^0.1.13",
-    "swagger-express-middleware": "^2.0.1"
+    "swagger-express-middleware": "^4.0.2"
   },
   "devDependencies": {
     "@ef-carbon/tspm": "^2.2.5",

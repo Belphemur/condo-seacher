@@ -1,6 +1,6 @@
 import {Request, Response} from "express"
-import locations from 'kijiji-scraper/lib/locations.js'
-import categories from 'kijiji-scraper/lib/categories.js'
+import locations from 'kijiji-scraper'
+import categories from 'kijiji-scraper'
 
 export class LocationsCategoriesController {
 
