@@ -24,23 +24,28 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     if (search.minPrice) {
       searchParams['minPrice'] = search.minPrice
     }
-    if (search.key) {
-      searchParams['q'] = search.key
-    }
     if (search.extraAttributes.length > 0) {
       search.extraAttributes.forEach((extraArg: ExtraKijijiSearchAttribute) => {
         const stringified = lodash.mapValues(extraArg, (value: any) => JSON.stringify(value))
         searchParams = lodash.merge(searchParams, stringified)
       })
     }
+    
     let ads: IAd[] = []
     try {
       ads = await kSearch(searchParams)
       if (search.bodyMatch.length > 0) {
         ads = ads.filter((ad: IAd) => {
-          return Str.contains(ad.description, search.bodyMatch)
+          return Str.containsAll(ad.description, search.bodyMatch)
         })
       }
+      
+      if (search.addressMatch.length > 0) {
+        ads = ads.filter((ad: IAd) => {
+          return Str.containsOne(ad.attributes.location, search.addressMatch)
+        })
+      }
+      L.info(ads)
     } catch (error) {
       L.error(error, 'Problem with Kijiji')
     }

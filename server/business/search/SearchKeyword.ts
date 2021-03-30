@@ -17,6 +17,8 @@ export interface ISearchKeyword extends IModel {
 
   bodyMatch: string[]
 
+  addressMatch: string[]
+
   readonly provider: IProvider<ISearchKeyword>
 
   readonly service: ISearchService
@@ -38,6 +40,8 @@ export abstract class SearchKeyword implements ISearchKeyword {
   private LAST_MATCH?: Date = null
   @Editable()
   bodyMatch = []
+  @Editable()
+  addressMatch = []
   @Editable()
   cronRule = null
 

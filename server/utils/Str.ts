@@ -2,11 +2,17 @@ export class Str {
   private constructor() {
   }
 
-  public static contains(str: string, strs: string[]): boolean {
+  public static containsAll(str: string, strs: string[]): boolean {
     for (let i = 0; i < strs.length; ++i) {
-      if (!str.includes(strs[i])) {
+      if (!str.toLowerCase().includes(strs[i].toLowerCase())) {
         return false
       }
+    }
+    return true
+  }
+  public static containsOne(str: string, strs: string[]): boolean {
+    if (!strs.some(v => str.includes(v))) {
+        return false
     }
     return true
   }
