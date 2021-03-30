@@ -19,6 +19,8 @@ export interface ISearchKeyword extends IModel {
 
   addressMatch: string[]
 
+  kijijiSearchStr: string
+
   readonly provider: IProvider<ISearchKeyword>
 
   readonly service: ISearchService
@@ -33,6 +35,7 @@ export interface ISearchKeyword extends IModel {
 
 export abstract class SearchKeyword implements ISearchKeyword {
   readonly key: string
+  readonly kijijiSearchStr: string
   @Type(() => Date)
   readonly createdAt: Date = new Date()
   @Type(() => Date)

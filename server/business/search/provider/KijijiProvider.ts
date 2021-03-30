@@ -24,6 +24,9 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     if (search.minPrice) {
       searchParams['minPrice'] = search.minPrice
     }
+    if (search.kijijiSearchStr) {
+      searchParams['q'] = search.kijijiSearchStr
+    }
     if (search.extraAttributes.length > 0) {
       search.extraAttributes.forEach((extraArg: ExtraKijijiSearchAttribute) => {
         const stringified = lodash.mapValues(extraArg, (value: any) => JSON.stringify(value))
