@@ -14,7 +14,6 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     let searchParams = {
       locationId: search.locationId,
       categoryId: search.categoryId,
-      keywords: search.key.split(' ').join('+'),
       sortByName: 'dateDesc',
     }
 
@@ -25,7 +24,7 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
       searchParams['minPrice'] = search.minPrice
     }
     if (search.kijijiSearchStr) {
-      searchParams['q'] = search.kijijiSearchStr
+      searchParams['q'] = search.kijijiSearchStr.split(' ').join('+')
     }
     if (search.extraAttributes.length > 0) {
       search.extraAttributes.forEach((extraArg: ExtraKijijiSearchAttribute) => {
