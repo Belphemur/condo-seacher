@@ -1,11 +1,13 @@
-import nodeJsonDb from 'node-json-db'
+import { JsonDB } from 'node-json-db'
+import { Config } from 'node-json-db/dist/lib/JsonDBConfig'
 
 import { JsonDatabase } from '@business/database/JsonDatabase'
 import { plainToClass } from 'class-transformer'
 import lodash from 'lodash'
 import { IModel } from '@business/model/IModel'
-import { ClassType } from 'class-transformer/ClassTransformer'
+import { ClassType } from 'class-transformer/esm2015/ClassTransformer'
 import { L } from '@/common/logger'
+
 
 export interface IDBService<T extends IModel> {
 
@@ -23,8 +25,7 @@ export interface IDBService<T extends IModel> {
 }
 
 export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
-
-  protected readonly db: nodeJsonDb
+  protected readonly db = new JsonDB(new Config(process.env.DB_FILE,true, false, '/'))
   private readonly path: string
   private readonly classType: ClassType<T>
 
@@ -75,7 +76,7 @@ export abstract class JsonDBService<T extends IModel> implements IDBService<T> {
       return Promise.resolve(search)
     }
 
-    return Promise.resolve(this.plainToClass(search) as T)
+    return Promise.resolve((this.plainToClass(search) as any) as T)
   }
 
   save(model: T): void {

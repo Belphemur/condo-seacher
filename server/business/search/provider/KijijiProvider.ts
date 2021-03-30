@@ -14,7 +14,6 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     let searchParams = {
       locationId: search.locationId,
       categoryId: search.categoryId,
-      keywords: search.key.split(' ').join('+'),
       sortByName: 'dateDesc',
     }
 
@@ -24,18 +23,27 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     if (search.minPrice) {
       searchParams['minPrice'] = search.minPrice
     }
+    if (search.kijijiSearchStr) {
+      searchParams['q'] = search.kijijiSearchStr.split(' ').join('+')
+    }
     if (search.extraAttributes.length > 0) {
       search.extraAttributes.forEach((extraArg: ExtraKijijiSearchAttribute) => {
         const stringified = lodash.mapValues(extraArg, (value: any) => JSON.stringify(value))
         searchParams = lodash.merge(searchParams, stringified)
       })
     }
+    
     let ads: IAd[] = []
     try {
       ads = await kSearch(searchParams)
       if (search.bodyMatch.length > 0) {
         ads = ads.filter((ad: IAd) => {
-          return Str.contains(ad.description, search.bodyMatch)
+          return Str.containsAll(ad.description, search.bodyMatch)
+        })
+      }
+      if (search.addressMatch.length > 0) {
+        ads = ads.filter((ad: IAd) => {
+          return Str.containsOne(ad.attributes.location, search.addressMatch)
         })
       }
     } catch (error) {

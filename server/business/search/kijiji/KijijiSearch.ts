@@ -21,6 +21,8 @@ export class KijijiSearch extends SearchKeyword implements IKijijiSearch {
   @Editable()
   categoryId: number
   @Editable()
+  kijijiSearchStr: string
+  @Editable()
   extraAttributes: ExtraKijijiSearchAttribute[] = []
 
   get provider(): IProvider<ISearchKeyword> {
