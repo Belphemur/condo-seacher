@@ -39,13 +39,11 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
           return Str.containsAll(ad.description, search.bodyMatch)
         })
       }
-      
       if (search.addressMatch.length > 0) {
         ads = ads.filter((ad: IAd) => {
           return Str.containsOne(ad.attributes.location, search.addressMatch)
         })
       }
-      L.info(ads)
     } catch (error) {
       L.error(error, 'Problem with Kijiji')
     }
