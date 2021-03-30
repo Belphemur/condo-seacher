@@ -31,10 +31,8 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
       search.extraAttributes.forEach((extraArg: ExtraKijijiSearchAttribute) => {
         const stringified = lodash.mapValues(extraArg, (value: any) => JSON.stringify(value))
         searchParams = lodash.merge(searchParams, stringified)
-        L.info(stringified)
       })
     }
-    L.info(searchParams)
     let ads: IAd[] = []
     try {
       ads = await kSearch(searchParams)
@@ -46,7 +44,6 @@ export class KijijiProvider implements IProvider<IKijijiSearch> {
     } catch (error) {
       L.error(error, 'Problem with Kijiji')
     }
-    L.info(ads)
     return Promise.resolve(ads)
   }
 
