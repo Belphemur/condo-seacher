@@ -41,7 +41,7 @@
     "mocha": "^6.0.0",
     "nodemon": "^1.18.9",
     "pino-pretty": "^2.5.0",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.5",
     "supertest": "^3.3.0",
     "ts-node": "^8.0.2",
     "tsconfig-paths": "^3.8.0",
